@@ -2,38 +2,39 @@ const express = require("express");
 const router = express.Router();
 const contactsController  = require("../controllers/contacts");
 const { tryCatchWrapper } = require("../helpers");
-const { joiSchema, favoriteJoiSchema } = require("../models/contacts.js");
 const {
-  validateId,
-  validationPost,
-  validationUpdate,
-  validationFavoriteUpdate
+  joiSchema,
+  idJoiSchema,
+  favoriteJoiSchema } = require("../models/contacts.js");
+const {
+  validationBody,
+  validationParams
 } = require("../middlewares");
 
 router.get("/", tryCatchWrapper(contactsController.getAll));
 router.get("/:id",
-  validateId,
+  validationParams(idJoiSchema),
   tryCatchWrapper(contactsController.getById));
 
 router.post("/",
-  validationPost(joiSchema),
+  validationBody(joiSchema),
   tryCatchWrapper(contactsController.create));
 
 router.put("/:id",
-  validateId,
-  validationUpdate(joiSchema),
+  validationParams(idJoiSchema),
+  validationBody(joiSchema),
   tryCatchWrapper(contactsController.putById)
 );
 
 router.patch(
   "/:id/favorite",
-  validateId,
-  validationFavoriteUpdate(favoriteJoiSchema),
+  validationParams(idJoiSchema),
+  validationBody(favoriteJoiSchema),
   tryCatchWrapper(contactsController.updateFavorite)
 );
 
 router.delete("/:id",
-  validateId,
+  validationParams(idJoiSchema),
   tryCatchWrapper(contactsController.deleteById));
 
 module.exports = router;

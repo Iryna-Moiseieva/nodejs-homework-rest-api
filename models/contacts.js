@@ -1,5 +1,6 @@
 const { Schema, model } = require("mongoose");
 const Joi = require("joi");
+Joi.objectId = require("joi-objectid")(Joi);
 
 const contactSchema = Schema(
   {
@@ -30,6 +31,10 @@ const joiSchema = Joi.object({
   favorite: Joi.boolean().required(),
 });
 
+const idJoiSchema = Joi.object({
+  id: Joi.objectId().required(),
+});
+
 const favoriteJoiSchema = Joi.object({
   favorite: Joi.boolean().required(),
 });
@@ -37,5 +42,6 @@ const favoriteJoiSchema = Joi.object({
 module.exports = {
   Contact,
   joiSchema,
+  idJoiSchema,
   favoriteJoiSchema,
 };

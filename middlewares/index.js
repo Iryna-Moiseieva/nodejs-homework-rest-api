@@ -1,18 +1,6 @@
-const { isValidObjectId } = require("mongoose");
-const { NotFound, BadRequest } = require("http-errors");
+const { BadRequest } = require("http-errors");
 
-const validateId = (req, res, next) => {
-  const { id } = req.params;
-  const isValid = isValidObjectId(id);
-
-  if (!isValid) {
-    next(NotFound(`Contact with id: ${id} not found`));
-    return;
-  }
-  next();
-};
-
-function validationPost(schema) {
+function validationBody(schema) {
   return (req, _, next) => {
     const { error } = schema.validate(req.body);
     if (error) {
@@ -22,30 +10,17 @@ function validationPost(schema) {
   };
 }
 
-const validationUpdate = (schema) => {
-  return (req, res, next) => {
-    const { error } = schema.validate(req.body);
+function validationParams(schema) {
+  return (req, _, next) => {
+    const { error } = schema.validate(req.params);
     if (error) {
-      throw new BadRequest("Missing fields");
+      throw new BadRequest("Wrong request parameter");
     }
     next();
   };
-};
-
-const validationFavoriteUpdate = (schema) => {
-  return (req, res, next) => {
-    const { error } = schema.validate(req.body);
-    if (error) {
-      throw new BadRequest("Missing fields favorite");
-    }
-    next();
-  };
-};
-
+}
 
 module.exports = {
-  validateId,
-  validationPost,
-  validationUpdate,
-  validationFavoriteUpdate
+  validationBody,
+  validationParams
 };
