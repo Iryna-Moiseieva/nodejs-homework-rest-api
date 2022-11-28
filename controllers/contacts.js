@@ -1,58 +1,58 @@
 const { Contact } = require("../models/contacts.js");
 
 async function getAll(req, res, next) {
-  const result = await Contact.find();
+  const contacts = await Contact.find();
 
-  res.json(result);
+  return res.json(contacts);
 }
 
 async function getById(req, res, next) {
   const { id } = req.params;
-  const result = await Contact.findById(id);
+  const contact = await Contact.findById(id);
 
-  result
-    ? res.status(200).json( result )
+  return contact
+    ? res.status(200).json( contact )
     : res.status(404).json({ message: "Not found" });
 }
 
 async function create(req, res, next) {
-  const result = await Contact.create(req.body);
+  const contact = await Contact.create(req.body);
 
-  res.status(201).json(result);
+  return res.status(201).json(contact);
 }
 
 async function putById(req, res, next) {
   const { id } = req.params;
-  const result = await Contact.findByIdAndUpdate(
+  const contact = await Contact.findByIdAndUpdate(
     id,
     req.body,
     { new: true });
 
-  result
-    ? res.status(200).json( result )
+  return contact
+    ? res.status(200).json( contact )
     : res.status(404).json({ message: "Not found" });
 }
 
 async function updateFavorite (req, res, next) {
   const { id } = req.params;
   const { favorite } = req.body;
-  const result = await Contact.findByIdAndUpdate(
+  const contact = await Contact.findByIdAndUpdate(
     id,
     { favorite },
     { new: true }
   );
 
-  result
-    ? res.status(200).json( result )
+  return contact
+    ? res.status(200).json( contact )
     : res.status(404).json({ message: "Not found" });
 }
 
 async function deleteById(req, res, next) {
   const { id } = req.params;
-  const result = await Contact.findByIdAndRemove(id);
+  const contact = await Contact.findByIdAndRemove(id);
 
-  result
-    ? res.status(200).json({ message: "Contact deleted", result })
+  return contact
+    ? res.status(200).json({ message: "Contact deleted", contact })
     : res.status(404).json({ message: "Not found" });
 
 };

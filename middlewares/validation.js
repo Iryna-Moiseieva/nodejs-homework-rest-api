@@ -4,7 +4,7 @@ function validationBody(schema) {
   return (req, _, next) => {
     const { error } = schema.validate(req.body);
     if (error) {
-      throw new BadRequest("Missing required fields");
+      throw new BadRequest(error.message);
     }
     next();
   };
@@ -14,7 +14,7 @@ function validationParams(schema) {
   return (req, _, next) => {
     const { error } = schema.validate(req.params);
     if (error) {
-      throw new BadRequest("Wrong request parameter");
+      throw new BadRequest(error.message);
     }
     next();
   };

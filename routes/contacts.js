@@ -9,7 +9,7 @@ const {
 const {
   validationBody,
   validationParams
-} = require("../middlewares");
+} = require("../middlewares/validation");
 
 router.get("/", tryCatchWrapper(contactsController.getAll));
 router.get("/:id",
