@@ -21,6 +21,14 @@ const userSchema = Schema({
     default: null,
   },
   avatarURL: String,
+  verify: {
+    type: Boolean,
+    default: false,
+  },
+  verificationToken: {
+    type: String,
+    required: [true, 'Verify token is required'],
+  },
 });
 
 const credentialsJoiSchema = Joi.object({
@@ -28,9 +36,20 @@ const credentialsJoiSchema = Joi.object({
   password: Joi.string().required(),
 });
 
+const verifyJoiSchema = Joi.object({
+  verificationToken: Joi.string().required(),
+});
+
+const emailJoiSchema = Joi.object({
+  email: Joi.string().email().required(),
+});
+
+
 const User = model("user", userSchema);
 
 module.exports = {
   User,
-  credentialsJoiSchema
+  credentialsJoiSchema,
+  verifyJoiSchema,
+  emailJoiSchema
 };
