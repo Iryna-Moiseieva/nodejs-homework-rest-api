@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const contactsController  = require("../controllers/contacts");
-const { tryCatchWrapper } = require("../helpers");
+const { tryCatchWrapper } = require("../helpers/tryCatchWrapper");
 const {
   joiSchema,
   idJoiSchema,
